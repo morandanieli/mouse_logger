@@ -548,7 +548,7 @@ function pointerCheck() {
 }
 
 function getUuId(){
-    return Math.floor(Math.random() * 100) * Date.now();
+    return String(Math.floor(Math.random() * 100) * Date.now());
 }
 
 $(document).ready(function () {
@@ -578,7 +578,6 @@ $(document).ready(function () {
     $('#bootstrapForm').submit(function (event) {
         event.preventDefault()
         var extraData = { "moves": moves, "keys": keys }
-        console.log(JSON.stringify(extraData));
         $.ajax({
             data: JSON.stringify(extraData),
             type: 'POST',
