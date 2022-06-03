@@ -3,14 +3,16 @@ from flask import Flask
 import sqlite3
 from flask import g
 import os
+import plot_mouse
 
-DATABASE = os.path.join("db", 'logger.db')
-
+DIRNAME = os.path.dirname(os.path.realpath(__file__))
+DATABASE = os.path.join(DIRNAME, "db", 'logger.db')
+IMAGES = os.path.join(DIRNAME, "images")
 
 def init_db(app):
     with app.app_context():
         db = get_db()
-        with app.open_resource(os.path.join("db", 'schema.sql'), mode='r') as f:
+        with app.open_resource(os.path.join(DIRNAME, "db", 'schema.sql'), mode='r') as f:
             db.cursor().executescript(f.read())
         db.commit()
 
@@ -60,10 +62,29 @@ def handle_submit_request():
             VALUES(:key, :keyCode, :timestamp, :session_id, :event_type);',
             content['keys']
         )
+
         db.commit()
+        cur.close()
+
+        #TODO need to do it post process
+        #TODO This process should trigger the post-processing stage
+        session_id = content['moves'][0]["session_id"]
         return {"result": "success"}
-    except Exception:
+    except Exception as e:
         return {"result": "error"}
+
+
+def generate_image(session_id):
+    output_filename = os.path.join(IMAGES, "{}.png".format(session_id))
+    plot_mouse.generate_image(session_id, output_filename)
+    db = get_db()
+    cur = db.cursor()
+    cur.execute(
+        'INSERT INTO images (session_id, path) VALUES(?, ?)',
+        [session_id, output_filename]
+    )
+    db.commit()
+    cur.close()
 
 
 if __name__ == '__main__':

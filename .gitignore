@@ -1,2 +1,7 @@
 .idea
 *.db
+.DS_Store
+.ipynb_checkpoints
+outputs
+__pycache__
+images
