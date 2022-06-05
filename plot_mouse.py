@@ -1,22 +1,20 @@
 #!/usr/bin/env python
 # coding: utf-8
 import os
-
+import time
+import cv2
 import pandas as pd
 import sqlite3
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 import matplotlib as mtl
+from PIL import Image
 
-
-def get_data(session_id):
+def get_data(session_id, db_name):
     # Read sqlite query results into a pandas DataFrame
-    con = sqlite3.connect("/Users/moran/PycharmProjects/keylogger/db/logger.db")
-    df = pd.read_sql_query("SELECT * from moves where session_id='{}'".format(session_id), con)
+    with sqlite3.connect(db_name) as con:
+        df = pd.read_sql_query("SELECT * from moves where session_id='{}'".format(session_id), con)
 
-    # Verify that result of SQL query is stored in the dataframe
-    con.close()
     return df
 
 
@@ -33,7 +31,6 @@ def handle_session(df):
     # calc time change 
     dt = moves["timestamp"].iloc[1:].values - moves["timestamp"].iloc[0:-1].values
     moves['dt'] = np.append([0], dt)
-    print(moves['dt'])
     moves['speed'] = moves['dist'] / moves['dt']
     moves['speed'].fillna(0, inplace=True)
     
@@ -63,14 +60,31 @@ def generate_fig(moves, clicks, output_filename):
         prev_val = row['speed_cat']
 
     plt.scatter(clicks['x'], clicks['y'], s=200)
-    
-    fig.savefig(output_filename, bbox_inches='tight')
-    plt.close(fig) 
-    
+    tmp_file = output_filename + ".tmp.png"
+    fig.savefig(tmp_file, bbox_inches='tight', dpi=300)
+    plt.close(fig)
 
-def generate_image(session_id, output_filename):
-    df = get_data(session_id=session_id)
+    # flip image
+    image= cv2.imread(tmp_file)
+    flippedimage = cv2.flip(image, 0)
+    cv2.imwrite(output_filename, flippedimage)
+
+    os.remove(tmp_file)
+
+
+def generate_image(session_id, output_filename, db_name):
+    df = get_data(session_id, db_name)
     moves, clicks = handle_session(df)
     generate_fig(moves, clicks, output_filename)
 
 
+def generate_image_request(session_id, output_filename, db_name):
+    generate_image(session_id, output_filename, db_name)
+    with sqlite3.connect(db_name) as db:
+        cur = db.cursor()
+        cur.execute(
+            'INSERT INTO images (session_id, path) VALUES(?, ?)',
+            [session_id, output_filename]
+        )
+        db.commit()
+        cur.close()

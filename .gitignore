@@ -1,5 +1,5 @@
 .idea
-*.db
+*.db*
 .DS_Store
 .ipynb_checkpoints
 outputs

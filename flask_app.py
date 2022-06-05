@@ -1,9 +1,9 @@
-from flask import render_template, request
+from flask import render_template, request, url_for, send_from_directory
 from flask import Flask
 import sqlite3
 from flask import g
 import os
-import plot_mouse
+from celery_app import func1
 
 DIRNAME = os.path.dirname(os.path.realpath(__file__))
 DATABASE = os.path.join(DIRNAME, "db", 'logger.db')
@@ -18,7 +18,10 @@ def init_db(app):
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__,
+                static_url_path='/static',
+                static_folder='web/static',
+                template_folder='web/templates')
     with app.app_context():
         init_db(app)
     return app
@@ -66,26 +69,36 @@ def handle_submit_request():
         db.commit()
         cur.close()
 
-        #TODO need to do it post process
-        #TODO This process should trigger the post-processing stage
         session_id = content['moves'][0]["session_id"]
-        return {"result": "success"}
+        output_filename = os.path.join(IMAGES, "{}.png".format(session_id))
+        task = func1.delay(session_id, output_filename, DATABASE)
+        return {"result": "success", "redirect_url": url_for('task_status', task_id=task.id)}
+
     except Exception as e:
         return {"result": "error"}
 
 
-def generate_image(session_id):
-    output_filename = os.path.join(IMAGES, "{}.png".format(session_id))
-    plot_mouse.generate_image(session_id, output_filename)
-    db = get_db()
-    cur = db.cursor()
-    cur.execute(
-        'INSERT INTO images (session_id, path) VALUES(?, ?)',
-        [session_id, output_filename]
-    )
-    db.commit()
-    cur.close()
+@app.route('/status/<task_id>')
+def task_status(task_id):
+    task = func1.AsyncResult(task_id)
+    if task.state == 'PENDING':
+        response = {
+            'queue_state': task.state,
+            'status': 'Process is ongoing...',
+            'status_update': url_for('task_status', task_id=task.id)
+        }
+    else:
+        response = {
+            'queue_state': task.state,
+            'result': task.wait()
+        }
+    return response
+
+
+@app.route('/images/<path:path>')
+def get_image(path):
+    return send_from_directory('images', path)
 
 
 if __name__ == '__main__':
-    app.run(port=5001,debug=True)
+    app.run(port=5001,debug=True, host='0.0.0.0')

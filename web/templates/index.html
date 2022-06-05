@@ -13,10 +13,7 @@
 </style>
 </head>
 <body>
-<form action="https://docs.google.com/forms/d/e/1FAIpQLSeVOGgVokHbnAMMjnCKPhbFoSqGHZmoWZugSLd75X0c3VnuzQ/formResponse"
-      target="_self"
-      id="bootstrapForm"
-      method="POST">
+<form id="bootstrapForm">
     <fieldset>
         <h2>GENERAL NUTRITION KNOWLEDGE QUESTIONNAIRE<br><small></small></h2>
     </fieldset>
@@ -531,70 +528,8 @@
     <br>
     <input class="btn btn-primary" id="submitbutton" type="submit" value="Submit">
 </form>
-<script>
-var sessionId = getUuId();
-var pointerX;
-var pointerY;
-var prevPointerX;
-var prevPointerY;
-var timestamp;
-var moves = [];
-var keys = [];
 
-function pointerCheck() {
-    if (prevPointerX != pointerX && prevPointerY != pointerY) {
-        moves.push({"x": pointerX, "y": pointerY, "timestamp": timestamp, "session_id": sessionId, "event_type": "move"});
-    }
-}
-
-function getUuId(){
-    return String(Math.floor(Math.random() * 100) * Date.now());
-}
-
-$(document).ready(function () {
-
-    document.onmousemove = function(event) {
-        prevPointerX = pointerX;
-        prevPointerY = pointerY;
-        pointerX = event.pageX;
-        pointerY = event.pageY;
-        timestamp = event.timeStamp;
-    }
-
-    document.onclick = function(event) {
-        moves.push({"x": event.pageX, "y": event.pageY, "timestamp": event.timeStamp, "session_id": sessionId, "event_type": "click"});
-    }
-
-    document.onkeyup = function(event) {
-        keys.push({"key": event.key, "keyCode": event.keyCode, "timestamp": event.timeStamp, "session_id": sessionId, "event_type": "press"});
-    }
-
-    document.onkeydown = function(event) {
-        keys.push({"key": event.key, "keyCode": event.keyCode, "timestamp": event.timeStamp, "session_id": sessionId, "event_type": "release"});
-    }
-
-    setInterval(pointerCheck, 10);
-
-    $('#bootstrapForm').submit(function (event) {
-        event.preventDefault()
-        var extraData = { "moves": moves, "keys": keys }
-        $.ajax({
-            data: JSON.stringify(extraData),
-            type: 'POST',
-            url: '/submit_form',
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function () {
-                alert('Form Submitted. Thanks.');
-                document.getElementById('submitbutton').disabled = "disabled";
-            },
-            error: function () {
-                alert('Failed sending form. Try again later');
-            }
-        })
-    })
-});
-</script>
+<script type="text/javascript" src="/static/js/analyzer.js"></script>
 </body>
 </html>
 

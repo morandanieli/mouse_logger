@@ -1,0 +1,39 @@
+version: "3"
+
+# add volume for redis and mysqlite db
+
+services:
+  web:
+    container_name: web
+    build: .
+    ports:
+      - "5001:5001"
+    links:
+      - redis
+    depends_on:
+      - redis
+    environment:
+      - FLASK_ENV=development
+    volumes:
+      - .:/app
+
+  redis:
+    container_name: redis
+    image: redis:5.0.5
+    hostname: redis
+    ports:
+      - "6379:6379"
+
+  worker:
+    build:
+      context: .
+    hostname: worker
+    entrypoint: celery
+    command: -A celery_app.celery worker --loglevel=info
+    volumes:
+      - .:/app
+    links:
+      - redis
+    depends_on:
+      - redis
+
