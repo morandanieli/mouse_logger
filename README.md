@@ -38,12 +38,16 @@ Mouse Logger is a passive data collection tool, aimed at recording mouse movemen
     cd mouse_logger
     ```
 
-3. **Install Dependencies**
-
-    If the project has any dependencies, make sure to list the installation steps. For instance, if you're using npm:
+3. **Build the Docker Image**
 
     ```bash
-    npm install
+    docker build -t mouse-logger .
+    ```
+    
+4. **Run the Docker Container**
+
+    ```bash
+    docker run -p 5001:5001 mouse-logger
     ```
 
 ## Usage
@@ -55,16 +59,8 @@ Mouse Logger is a passive data collection tool, aimed at recording mouse movemen
    ```html
    <script src="/static/js/analyzer.js"></script>
    ```
-
-2. **Initialize the Logger**
-
-   Initialize the Mouse Logger:
-
-   ```javascript
-   MouseLogger.init();
-   ```
-
-3. Start your server or open your page to begin collecting data!
+   
+2. Open your questionnaire page to begin collecting data!
 
 ## Data Visualization
 
