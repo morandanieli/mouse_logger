@@ -53,7 +53,7 @@ Mouse Logger is a passive data collection tool, aimed at recording mouse movemen
    Embed the JavaScript logger script in your HTML questionnaire page:
 
    ```html
-   <script src="path_to_logger.js"></script>
+   <script src="/static/js/analyzer.js"></script>
    ```
 
 2. **Initialize the Logger**
