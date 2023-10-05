@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Logger Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>Mouse Logger Dashboard</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Heatmap of Mouse Clicks</h2>
+            <div id="clickHeatmap" class="visualization"></div>
+        </section>
+
+        <section>
+            <h2>Mouse Movement Speeds</h2>
+            <div id="movementSpeeds" class="visualization">
+                <canvas id="speedChart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2023 by Moran Danieli Cohen. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/heatmap.js@2.0.2/build/heatmap.min.js"></script>
+    <script src="js/dashboard_scripts.js"></script>
+</body>
+
+</html>

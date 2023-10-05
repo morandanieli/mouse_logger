@@ -1,3 +1,5 @@
+import logging
+
 from flask import render_template, request, url_for, send_from_directory
 from flask import Flask
 import sqlite3
@@ -44,9 +46,19 @@ def close_connection(exception):
         db.close()
 
 
+@app.route('/questionnaire.html')
+def questionnaire():
+    return render_template('questionnaire.html')
+
+
 @app.route('/')
-def hello():
-    return render_template('index.html')
+def main():
+    return render_template('main.html')
+
+
+@app.route('/dashboard.html')
+def dashboard():
+    return render_template('dashboard.html')
 
 
 @app.route('/submit_form', methods=['POST'])
@@ -75,6 +87,7 @@ def handle_submit_request():
         return {"result": "success", "redirect_url": url_for('task_status', task_id=task.id)}
 
     except Exception as e:
+        logging.error(e);
         return {"result": "error"}
 
 

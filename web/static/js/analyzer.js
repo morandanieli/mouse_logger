@@ -45,7 +45,6 @@ function poll(uri) {
 }
 
 $(document).ready(function () {
-
     document.onmousemove = function(event) {
         prevPointerX = pointerX;
         prevPointerY = pointerY;
@@ -69,8 +68,9 @@ $(document).ready(function () {
     setInterval(pointerCheck, 5);
 
     $('#bootstrapForm').submit(function (event) {
-        event.preventDefault()
-        var extraData = { "moves": moves, "keys": keys }
+        event.preventDefault();
+        document.getElementById('submitbutton').disabled = "disabled";
+        var extraData = { "moves": moves, "keys": keys };
         $.ajax({
             data: JSON.stringify(extraData),
             type: 'POST',
@@ -79,15 +79,19 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             success: function(res) {
                 if (res['result'] == 'success') {
-                    document.getElementById('submitbutton').disabled = "disabled";
                     alert('Form Submitted. Processing data...');
                     poll(res['redirect_url']);
                 } else {
+                    console.log(res);
                     alert('Failed sending form. Try again later');
                 }
             },
-            error: function () {
-                alert('Failed sending form. Try again later');
+            error: function (xhr, status, error) {
+                // `xhr.responseText` usually contains the server's response, which might be an error message
+                // `status` is a string describing the type of failure that occurred
+                // `error` is an exception object in case of an exception or the HTTP status text
+                alert('Failed sending form. Error: ' + xhr.responseText || error);
+                console.error('Ajax error:', status, error);
             }
         })
     })
