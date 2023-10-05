@@ -1,8 +1,8 @@
 # Mouse Logger: Monitoring User Behavior in Online Questionnaires
 
 <p align="center">
-  <img src="images/questionnaire.png" alt="Example Questionnaire" width="300" />
-  <img src="images/mouse_capture.png" alt="Example Mouse Movement Capture" width="300" />
+  <img src="images/dashboard.png" alt="Example Questionnaire" width="300" />
+  <img src="images/heatmap.png" alt="Example Mouse Movement Capture" width="300" />
 </p>
 
 ### Table of Contents
