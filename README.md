@@ -65,7 +65,6 @@ After collecting data, navigate to the visualization dashboard (e.g., `dashboard
 
 - View the heatmap of mouse clicks.
 - Analyze mouse movement speeds.
-- Understand directional preferences.
 
 ## Contribute
 
