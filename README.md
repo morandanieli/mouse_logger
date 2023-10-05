@@ -1,7 +1,9 @@
-# Mouse Logger: Mouse Movement & Interaction Tracker
+# Mouse Logger: Monitoring User Behavior in Online Questionnaires
 
-![Example Questionnaire](images/questionnaire.png)
-![Example Mouse Movement Capture](images/mouse_capture.png)
+<p align="center">
+  <img src="images/questionnaire.png" alt="Example Questionnaire" width="300" />
+  <img src="images/mouse_capture.png" alt="Example Mouse Movement Capture" width="300" />
+</p>
 
 ### Table of Contents
 
