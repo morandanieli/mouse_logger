@@ -1,8 +1,10 @@
 # Mouse Logger: Monitoring User Behavior in Online Questionnaires
 
-<p align="center">  
+<p align="left">  
   <img src="images/heatmap.png" alt="Example Mouse Movement Capture" width="300" />
 </p>
+
+[![User Behavior Analytics Platform](https://img.youtube.com/vi/074XX09CtKk/hqdefault.jpg)](https://youtu.be/074XX09CtKk "Click to watch a demo")
 
 ### Table of Contents
 
