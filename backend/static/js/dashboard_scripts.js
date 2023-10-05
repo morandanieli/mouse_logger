@@ -5,22 +5,28 @@ document.addEventListener("DOMContentLoaded", function() {
     const directionalPreferencesData = [];  // Add data here
 
     function renderClickHeatmap() {
-        fetch('/clickHeatmapData')
-        .then(response => response.json())
-        .then(data => {
-            // Initialize heatmap instance
-            var heatmapInstance = h337.create({
-                container: document.getElementById("clickHeatmap"),
-                radius: 10
-            });
-            console.log(data);
-            heatmapInstance.setData({
-                max: Math.max(...data.map(d => d.value)),
-                data: data
-            });
+       fetch('http://localhost:5002/nutrition.html')
+        .then(response => response.text())
+        .then(html => {
+            document.querySelector('#clickHeatmap').innerHTML = html;
+            fetch('/clickHeatmapData')
+            .then(response => response.json())
+            .then(data => {
+                // Initialize heatmap instance
+                var heatmapInstance = h337.create({
+                    container: document.getElementById("clickHeatmap"),
+                });
+                heatmapInstance.setData({
+                    max: Math.max(...data.map(d => d.value)),
+                    data: data
+                });
+            })
+            .catch(err => console.error('Error fetching heatmap data:', err));
         })
-        .catch(err => console.error('Error fetching heatmap data:', err));
+        .catch(error => console.error('Error fetching questionnaire:', error));
+
     }
+
 
     // Function to visualize mouse movement speeds
     function renderMovementSpeeds(data) {

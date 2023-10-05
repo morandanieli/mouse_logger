@@ -104,14 +104,11 @@ section {
 /* If you have other classes or IDs, add their styles below */
 
 #clickHeatmap {
-    width: 100%;
-    height: 400px; /* Adjust as needed */
     position: relative;
 }
 
 #movementSpeeds {
-    width: 100%;
-    height: 400px; /* Adjust as needed */
+    min-height: 400px; /* Adjust as needed */
     position: relative;
 }
 
