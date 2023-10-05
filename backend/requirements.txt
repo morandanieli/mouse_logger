@@ -6,3 +6,4 @@ seaborn
 celery
 Redis
 opencv-python
+flask_cors

@@ -1,11 +1,8 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <script
-      src="https://code.jquery.com/jquery-3.6.0.min.js"
-      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-      crossorigin="anonymous"
-    ></script>
+    <!-- ADDITION 1: Add jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <style>
     fieldset {
         margin-top: 10px;
@@ -13,7 +10,8 @@
 </style>
 </head>
 <body>
-<form id="bootstrapForm">
+<div class="questionnaire">
+<form id="form_to_track">
     <fieldset>
         <h2>GENERAL NUTRITION KNOWLEDGE QUESTIONNAIRE<br><small></small></h2>
     </fieldset>
@@ -528,8 +526,14 @@
     <br>
     <input class="btn btn-primary" id="submitbutton" type="submit" value="Submit">
 </form>
-
-<script type="text/javascript" src="/static/js/analyzer.js"></script>
+</div>
+<!-- ADDITION 2: Add formId -->
+<script>
+    // Set the global variable for form ID
+    var formId = "form_to_track";
+</script>
+<!-- ADDITION 3: Add analyzer.js -->
+<script type="text/javascript" src="http://localhost:5001/static/js/analyzer.js" async></script>
 </body>
 </html>
 

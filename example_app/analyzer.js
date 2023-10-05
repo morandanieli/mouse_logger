@@ -67,7 +67,7 @@ $(document).ready(function () {
 
     setInterval(pointerCheck, 5);
 
-    $('#bootstrapForm').submit(function (event) {
+    $(window.formId).submit(function (event) {
         event.preventDefault();
         document.getElementById('submitbutton').disabled = "disabled";
         var extraData = { "moves": moves, "keys": keys };

@@ -1,11 +1,11 @@
 import logging
 
 from flask import render_template, request, url_for, send_from_directory
-from flask import Flask, jsonify
+from flask import Flask, jsonify, g
 import sqlite3
-from flask import g
 import os
 from celery_app import func1
+from flask_cors import CORS
 
 DIRNAME = os.path.dirname(os.path.realpath(__file__))
 DATABASE = os.path.join(DIRNAME, "db", 'user_behaviour_tracking.db')
@@ -20,16 +20,6 @@ def init_db(app):
         db.commit()
 
 
-def create_app():
-    app = Flask(__name__,
-                static_url_path='/static',
-                static_folder='web/static',
-                template_folder='web/templates')
-    with app.app_context():
-        init_db(app)
-    return app
-
-
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -37,7 +27,10 @@ def get_db():
     return db
 
 
-app = create_app()
+app = Flask(__name__)
+CORS(app)
+with app.app_context():
+    init_db(app)
 
 
 @app.teardown_appcontext
@@ -45,11 +38,6 @@ def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
-
-
-@app.route('/questionnaire.html')
-def questionnaire():
-    return render_template('questionnaire.html')
 
 
 @app.route('/')
@@ -131,4 +119,4 @@ def get_image(path):
 
 
 if __name__ == '__main__':
-    app.run(port=5001,debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')
