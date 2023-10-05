@@ -4,7 +4,6 @@ from flask import render_template, request, url_for, send_from_directory
 from flask import Flask, jsonify, g
 import sqlite3
 import os
-from celery_app import func1
 from flask_cors import CORS
 
 DIRNAME = os.path.dirname(os.path.realpath(__file__))
