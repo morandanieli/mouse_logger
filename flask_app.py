@@ -1,7 +1,7 @@
 import logging
 
 from flask import render_template, request, url_for, send_from_directory
-from flask import Flask
+from flask import Flask, jsonify
 import sqlite3
 from flask import g
 import os
@@ -79,7 +79,6 @@ def handle_submit_request():
         )
 
         db.commit()
-        cur.close()
 
         session_id = content['moves'][0]["session_id"]
         output_filename = os.path.join(IMAGES, "{}.png".format(session_id))
@@ -89,6 +88,23 @@ def handle_submit_request():
     except Exception as e:
         logging.error(e);
         return {"result": "error"}
+
+
+@app.route('/clickHeatmapData', methods=['GET'])
+def click_heatmap_data():
+    try:
+        db = get_db()
+        cur = db.cursor()
+        data = cur.execute(
+            'select x,y,count(*) as value from moves where event_type = "click" GROUP BY x, y;'
+        )
+        db.commit()
+        result = [{"x": item[0], "y": item[1], "value": item[2]} for item in data]
+        return jsonify(result)
+
+    except Exception as e:
+        logging.error(e)
+        return {}
 
 
 @app.route('/status/<task_id>')
