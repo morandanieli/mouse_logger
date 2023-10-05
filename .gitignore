@@ -3,6 +3,6 @@
 .ipynb_checkpoints
 outputs
 __pycache__
-images
+backend/images
 venv
 db/*.db
