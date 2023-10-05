@@ -1,6 +1,7 @@
 # Mouse Logger: Mouse Movement & Interaction Tracker
 
-![Mouse Logger Banner](banner.png)
+![Example Questionnaire](images/questionnaire.png)
+![Example Mouse Movement Capture](images/mouse_capture.png)
 
 ### Table of Contents
 
