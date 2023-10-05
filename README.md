@@ -41,16 +41,10 @@ Mouse Logger is a passive data collection tool, aimed at recording mouse movemen
     cd mouse_logger
     ```
 
-3. **Build the Docker Image**
+3. **Start Services Using Docker Compose**
 
     ```bash
-    docker build -t mouse-logger .
-    ```
-    
-4. **Run the Docker Container**
-
-    ```bash
-    docker run -p 5001:5001 mouse-logger
+    docker-compose up
     ```
 
 ## Usage
