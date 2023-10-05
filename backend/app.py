@@ -71,7 +71,7 @@ def handle_submit_request():
         return {"result": "success"}
 
     except Exception as e:
-        logging.error(e);
+        logging.error(e)
         return {"result": "error"}
 
 
