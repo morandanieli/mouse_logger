@@ -2,10 +2,6 @@
 
 <p align="center">  
   <img src="images/heatmap.png" alt="Example Mouse Movement Capture" width="300" />
-  <video width="640" height="360" controls>
-    <source src="images/User Behavior Analytics Platform.webm" type="video/webm">
-    Your browser does not support the video tag.
-  </video>
 </p>
 
 ### Table of Contents
