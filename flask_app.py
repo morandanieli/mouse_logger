@@ -8,8 +8,9 @@ import os
 from celery_app import func1
 
 DIRNAME = os.path.dirname(os.path.realpath(__file__))
-DATABASE = os.path.join(DIRNAME, "db", 'logger.db')
+DATABASE = os.path.join(DIRNAME, "db", 'user_behaviour_tracking.db')
 IMAGES = os.path.join(DIRNAME, "images")
+
 
 def init_db(app):
     with app.app_context():

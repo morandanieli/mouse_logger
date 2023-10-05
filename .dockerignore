@@ -1,4 +1,4 @@
 .dockerignore
 .git
 venv
-db/logger.db
+db/*.db
