@@ -68,11 +68,7 @@ def handle_submit_request():
         )
 
         db.commit()
-
-        session_id = content['moves'][0]["session_id"]
-        output_filename = os.path.join(IMAGES, "{}.png".format(session_id))
-        task = func1.delay(session_id, output_filename, DATABASE)
-        return {"result": "success", "redirect_url": url_for('task_status', task_id=task.id)}
+        return {"result": "success"}
 
     except Exception as e:
         logging.error(e);

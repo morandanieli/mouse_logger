@@ -32,12 +32,3 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
-
-  worker:
-    build:
-      context: backend
-    hostname: worker
-    entrypoint: celery
-    command: -A celery_app.celery worker --loglevel=info
-    depends_on:
-      - redis
